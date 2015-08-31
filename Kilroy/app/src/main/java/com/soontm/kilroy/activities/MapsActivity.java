@@ -34,6 +34,7 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+
     }
 
     /**

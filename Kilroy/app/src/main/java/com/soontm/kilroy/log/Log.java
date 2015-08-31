@@ -14,6 +14,7 @@ public class Log {
         }
     }
 
+
     public static void d(String msg) {
         if (DEBUG) {
             android.util.Log.d(TAG, msg);

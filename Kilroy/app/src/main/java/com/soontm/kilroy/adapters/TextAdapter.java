@@ -34,7 +34,7 @@ private Context context;
 
     @Override
     public View getView(final int position, View converView, ViewGroup partent) {//create one item, L
-    // ösungen Android
+    // sungen Android
         View v = converView;
         Log.d("getView","");
         if (v == null) {

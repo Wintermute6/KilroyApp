@@ -22,12 +22,25 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
     private static final int FIX_UPDATE_TIME = 500; // milliseconds
     private static final int FIX_UPDATE_DISTANCE = 5; // meters
 
+    private LocationUpdater locationUpdater;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
         requestLocationUpdates();
+        initMapCamera();
+
+    }
+
+    private void initMapCamera() {
+        Location location  = locationUpdater.getLastKnownLocation();
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude),13);
+        mMap.animateCamera(update);
     }
 
     @Override
@@ -72,13 +85,17 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+
+
+
     }
 
     private void requestLocationUpdates (){
-        LocationUpdater locationUpdater = new LocationUpdater(Context.LOCATION_SERVICE, FIX_UPDATE_TIME, FIX_UPDATE_DISTANCE, this);
+        locationUpdater = new LocationUpdater(Context.LOCATION_SERVICE, FIX_UPDATE_TIME, FIX_UPDATE_DISTANCE, this);
         locationUpdater.setLocationUpdateListener(this);
         locationUpdater.requestLocationUpdates();
+
     }
 
     @Override

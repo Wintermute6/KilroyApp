@@ -22,6 +22,9 @@ public class LocationUpdater implements LocationListener {
 
     private locationUpdateListener locationReceiver;
 
+    private LocationManager locationManager ;
+
+
 
     public LocationUpdater (String locationService, int time, int distance, Context context){
         this.locationService = locationService;
@@ -31,14 +34,19 @@ public class LocationUpdater implements LocationListener {
     }
 
     public void requestLocationUpdates (){
-
-        LocationManager locationManager = (LocationManager) context.getSystemService(locationService);
+        locationManager = (LocationManager) context.getSystemService(locationService);
 
         Location location = locationManager.getLastKnownLocation(provider);
 
         publishLocationUpdate(location);
 
         locationManager.requestLocationUpdates(provider, time,distance, this); //calls onLocationChanged
+    }
+
+    public Location getLastKnownLocation () {
+       Location lastLocation = locationManager.getLastKnownLocation(provider);
+
+        return lastLocation;
     }
 
     public void setLocationUpdateListener (locationUpdateListener receiver){

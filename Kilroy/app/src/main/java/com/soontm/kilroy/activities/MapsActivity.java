@@ -13,9 +13,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import com.soontm.kilroy.R;
+import com.soontm.kilroy.domain.MarkerItem;
+import com.soontm.kilroy.dummyData.DummyMarker;
 import com.soontm.kilroy.location.LocationUpdater;
 
-public class MapsActivity extends FragmentActivity implements LocationUpdater.locationUpdateListener{
+import java.util.ArrayList;
+
+public class MapsActivity extends FragmentActivity implements LocationUpdater.locationUpdateListener {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
@@ -35,36 +39,7 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
 
     }
 
-    private void initMapCamera() {
-        Location location  = locationUpdater.getLastKnownLocation();
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
-        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude),13);
-        mMap.animateCamera(update);
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setUpMapIfNeeded();
-
-    }
-
-    /**
-     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
-     * installed) and the map has not already been instantiated.. This will ensure that we only ever
-     * call {@link #setUpMap()} once when {@link #mMap} is not null.
-     * <p/>
-     * If it isn't installed {@link SupportMapFragment} (and
-     * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
-     * install/update the Google Play services APK on their device.
-     * <p/>
-     * A user can return to this FragmentActivity after following the prompt and correctly
-     * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
-     * have been completely destroyed during this process (it is likely that it would only be
-     * stopped or paused), {@link #onCreate(Bundle)} may not be called again so we should call this
-     * method in {@link #onResume()} to guarantee that it will be called.
-     */
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
@@ -78,37 +53,67 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
         }
     }
 
-    /**
-     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
-     * just add a marker near Africa.
-     * <p/>
-     * This should only be called once and when we are sure that {@link #mMap} is not null.
-     */
+
     private void setUpMap() {
         //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-
-
-
+        mMap.setMyLocationEnabled(true);
+        setupMarkers();
     }
 
-    private void requestLocationUpdates (){
+
+    private void setupMarkers() {
+        DummyMarker dummys = new DummyMarker();
+        ArrayList <MarkerItem> dummyMarkers = dummys.getDummyMarkers();
+
+        for (int i =0 ; i< dummyMarkers.size()-1;i++) {
+            MarkerItem m = dummyMarkers.get(i);
+            MarkerOptions options = new MarkerOptions().position(m.getMarkerLocation()).title(m.getName());
+            mMap.addMarker(options);
+
+        }
+    }
+
+
+    private void requestLocationUpdates() {
         locationUpdater = new LocationUpdater(Context.LOCATION_SERVICE, FIX_UPDATE_TIME, FIX_UPDATE_DISTANCE, this);
         locationUpdater.setLocationUpdateListener(this);
         locationUpdater.requestLocationUpdates();
 
     }
 
+
+    // sets the initial position of the camera when activity is opened.
+    private void initMapCamera() {
+        Location location = locationUpdater.getLastKnownLocation();
+
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 13);
+        mMap.animateCamera(update);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUpMapIfNeeded();
+
+    }
+
+
+    //updates the map when the user moves a certain distance or after a certain time.
     @Override
     public void onLocationUpdateReceived(Location location) {
-        if(location != null) {
+        if (location != null) {
             updateMap(location);
         }
     }
 
-    private void updateMap(Location location){
+
+    private void updateMap(Location location) {
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(new LatLng(latitude,longitude));
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude));
         mMap.animateCamera(cameraUpdate);
     }
 }

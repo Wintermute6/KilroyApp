@@ -22,41 +22,40 @@ public class LocationUpdater implements LocationListener {
 
     private locationUpdateListener locationReceiver;
 
-    private LocationManager locationManager ;
+    private LocationManager locationManager;
 
 
-
-    public LocationUpdater (String locationService, int time, int distance, Context context){
+    public LocationUpdater(String locationService, int time, int distance, Context context) {
         this.locationService = locationService;
         this.time = time;
         this.distance = distance;
         this.context = context;
     }
 
-    public void requestLocationUpdates (){
+    public void requestLocationUpdates() {
         locationManager = (LocationManager) context.getSystemService(locationService);
 
         Location location = locationManager.getLastKnownLocation(provider);
 
         publishLocationUpdate(location);
 
-        locationManager.requestLocationUpdates(provider, time,distance, this); //calls onLocationChanged
+        locationManager.requestLocationUpdates(provider, time, distance, this); //calls onLocationChanged
     }
 
-    public Location getLastKnownLocation () {
-       Location lastLocation = locationManager.getLastKnownLocation(provider);
+    public Location getLastKnownLocation() {
+        Location lastLocation = locationManager.getLastKnownLocation(provider);
 
         return lastLocation;
     }
 
-    public void setLocationUpdateListener (locationUpdateListener receiver){
+    public void setLocationUpdateListener(locationUpdateListener receiver) {
         locationReceiver = receiver;
     }
 
-    private void publishLocationUpdate (Location location){
-        if(locationReceiver != null){
+    private void publishLocationUpdate(Location location) {
+        if (locationReceiver != null) {
             locationReceiver.onLocationUpdateReceived(location);
-        }else{
+        } else {
             Log.d("no location published. locationListener not set");
         }
     }
@@ -83,6 +82,6 @@ public class LocationUpdater implements LocationListener {
     }
 
     public interface locationUpdateListener {
-       void onLocationUpdateReceived (Location location);
+        void onLocationUpdateReceived(Location location);
     }
 }

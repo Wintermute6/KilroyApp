@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.soontm.kilroy" >
+    package="com.soontm.kilroy">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,9 +13,13 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <uses-permission android:name="android.permission.NFC" />
+
     <permission
         android:name="com.soontm.kilroy.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
+
+    <uses-feature android:name="android.hardware.nfc" android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -28,23 +32,54 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
-        <activity android:name=".activities.ChatActivity"
-            android:label="chat"></activity>
 
-<activity android:name=".activities.MainActivity"
-    android:label="Main">
-    <intent-filter>
-        <action android:name="android.intent.action.MAIN" />
+        <activity
+            android:name=".activities.ChatActivity"
+            android:label="chat">
 
-        <category android:name="android.intent.category.LAUNCHER" />
-    </intent-filter>
-</activity>
+        </activity>
+
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="Main">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
         <activity
 
             android:name=".activities.MapsActivity"
-            android:label="@string/title_activity_maps" >
+            android:label="@string/title_activity_maps">
 
         </activity>
+
+        <activity
+            android:name=".activities.NfcActivity"
+            android:label="Nfc">
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.nfc.action.TECH_DISCOVERED" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".activities.MarkerDetailActivity"
+            android:label="MarkerDetail">
+
+        </activity>
+
+
+
+
 
 
     </application>

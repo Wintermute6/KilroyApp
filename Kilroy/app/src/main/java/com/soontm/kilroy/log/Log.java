@@ -6,7 +6,7 @@ package com.soontm.kilroy.log;
 public class Log {
   //took the code from And11MappingMyLocation project from grips
     public static final boolean DEBUG = true;
-    public static final String TAG = "kilroy";
+    public static final String TAG = "kilroyApp";
 
     public static void d(String tag, String msg) {
         if (DEBUG) {

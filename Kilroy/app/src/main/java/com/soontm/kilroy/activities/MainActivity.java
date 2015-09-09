@@ -18,25 +18,27 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         initbutton();
     }
-private void initbutton() {
+
+    private void initbutton() {
 
 
-    Button button = (Button) findViewById(R.id.test_button);
-    button.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            startActivity(new Intent(MainActivity.this,ChatActivity.class));
-        }
-    });
+        Button button = (Button) findViewById(R.id.test_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ChatActivity.class));
+            }
+        });
 
-    Button mapsButton = (Button) findViewById(R.id.Maps_button);
-    mapsButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            startActivity(new Intent(MainActivity.this,MapsActivity.class));
-        }
-    });
+        Button mapsButton = (Button) findViewById(R.id.Maps_button);
+        mapsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, MapsActivity.class));
+            }
+        });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

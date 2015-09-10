@@ -125,12 +125,12 @@ public class MapsActivity extends FragmentActivity implements LocationUpdater.lo
     // sets the initial position of the camera when activity is opened.
     private void initMapCamera() {
         Location location = locationUpdater.getLastKnownLocation();
-        if(location!=null) {
+        Log.d("is location null?"+location.toString());
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
             CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 13);
             mMap.animateCamera(update);
-        }
+
     }
 
 
